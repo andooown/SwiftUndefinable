@@ -1,0 +1,19 @@
+name: Test
+on:
+  push:
+jobs:
+  test:
+    name: Swift ${{ matrix.swift }} on ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Get Swift version
+      run: | 
+        swift --version
+    - name: Run tests
+      run: |
+        swift test
+
