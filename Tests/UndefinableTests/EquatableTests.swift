@@ -8,6 +8,7 @@ final class EquatableTests: XCTestCase {
         XCTAssertEqual(Undefinable<Number>.defined(.one), Undefinable<Number>.defined(.one))
         XCTAssertNotEqual(Undefinable<Number>.defined(.one), Undefinable<Number>.defined(.two))
         XCTAssertNotEqual(Undefinable<Number>.defined(.one), Undefinable<Number>.undefined(0))
+        XCTAssertNotEqual(Undefinable<Number>.defined(.one), Undefinable<Number>.undefined(1))
         XCTAssertNotEqual(Undefinable<Number>.defined(.one), nil)
     }
 }
