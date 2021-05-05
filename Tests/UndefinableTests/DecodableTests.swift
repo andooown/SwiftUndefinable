@@ -13,8 +13,8 @@ final class DecodableTests: XCTestCase {
                    }
                    """.data(using: .utf8)!
 
-        XCTAssertEqual(try decoder.decode(Object.self, from: data).breed, .defined(.siberian))
-        XCTAssertEqual(try decoder.decode(OptionalObject.self, from: data).breed, .defined(.siberian))
+        XCTAssertEqual(try decoder.decode(Container.self, from: data).breed, .defined(.siberian))
+        XCTAssertEqual(try decoder.decode(OptionalContainer.self, from: data).breed, .defined(.siberian))
     }
 
     func testDecodingUndefinedValue() throws {
@@ -24,8 +24,8 @@ final class DecodableTests: XCTestCase {
                    }
                    """.data(using: .utf8)!
 
-        XCTAssertEqual(try decoder.decode(Object.self, from: data).breed, .undefined("ragdoll"))
-        XCTAssertEqual(try decoder.decode(OptionalObject.self, from: data).breed, .undefined("ragdoll"))
+        XCTAssertEqual(try decoder.decode(Container.self, from: data).breed, .undefined("ragdoll"))
+        XCTAssertEqual(try decoder.decode(OptionalContainer.self, from: data).breed, .undefined("ragdoll"))
     }
 
     func testDecodingFailureValue() throws {
@@ -35,8 +35,8 @@ final class DecodableTests: XCTestCase {
                    }
                    """.data(using: .utf8)!
 
-        XCTAssertThrowsError(try decoder.decode(Object.self, from: data))
-        XCTAssertThrowsError(try decoder.decode(OptionalObject.self, from: data))
+        XCTAssertThrowsError(try decoder.decode(Container.self, from: data))
+        XCTAssertThrowsError(try decoder.decode(OptionalContainer.self, from: data))
     }
 
     func testDecodingNilValue() throws {
@@ -45,7 +45,7 @@ final class DecodableTests: XCTestCase {
                        "breed": null
                    }
                    """.data(using: .utf8)!
-        XCTAssertNil(try decoder.decode(OptionalObject.self, from: data).breed)
+        XCTAssertNil(try decoder.decode(OptionalContainer.self, from: data).breed)
     }
 
     func testDecodingNotRepresentedValue() throws {
@@ -53,7 +53,7 @@ final class DecodableTests: XCTestCase {
                    {
                    }
                    """.data(using: .utf8)!
-        XCTAssertNil(try decoder.decode(OptionalObject.self, from: data).breed)
+        XCTAssertNil(try decoder.decode(OptionalContainer.self, from: data).breed)
     }
 }
 
@@ -64,11 +64,11 @@ extension DecodableTests {
         case siberian
     }
 
-    struct Object: Decodable {
+    struct Container: Decodable {
         let breed: Undefinable<CatBreed>
     }
 
-    struct OptionalObject: Decodable {
+    struct OptionalContainer: Decodable {
         let breed: Undefinable<CatBreed>?
     }
 }
