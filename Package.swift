@@ -23,6 +23,7 @@ let package = Package(
             dependencies: []),
         .testTarget(
             name: "UndefinableTests",
-            dependencies: ["Undefinable"]),
+            dependencies: ["Undefinable"],
+            path: "Tests"),
     ]
 )
