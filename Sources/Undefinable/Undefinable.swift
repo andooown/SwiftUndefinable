@@ -19,6 +19,43 @@ extension Undefinable: Decodable where T: Decodable, T.RawValue: Decodable {
 extension Undefinable: Equatable where T: Equatable, T.RawValue: Equatable {
 }
 
+public extension Undefinable where T: Equatable {
+    static func ~=(lhs: T, rhs: Undefinable<T>) -> Bool {
+        switch rhs {
+        case .defined(let wrapped):
+            return wrapped == lhs
+        case .undefined:
+            return false
+        }
+    }
+
+    static func ==(lhs: Undefinable<T>, rhs: T) -> Bool {
+        switch lhs {
+        case .defined(let wrapped):
+            return wrapped == rhs
+        case .undefined:
+            return false
+        }
+    }
+
+    static func ==(lhs: T, rhs: Undefinable<T>) -> Bool {
+        rhs == lhs
+    }
+
+    static func !=(lhs: Undefinable<T>, rhs: T) -> Bool {
+        switch lhs {
+        case .defined(let wrapped):
+            return wrapped != rhs
+        case .undefined:
+            return false
+        }
+    }
+
+    static func !=(lhs: T, rhs: Undefinable<T>) -> Bool {
+        rhs != lhs
+    }
+}
+
 extension Undefinable: Hashable where T: Hashable, T.RawValue: Hashable {
     public func hash(into hasher: inout Hasher) {
         switch self {
