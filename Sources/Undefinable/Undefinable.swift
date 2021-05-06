@@ -5,12 +5,12 @@ public enum Undefinable<T: RawRepresentable> {
     case undefined(T.RawValue)
 }
 
-extension Undefinable {
-    public init(_ wrapped: T) {
+public extension Undefinable {
+    init(_ wrapped: T) {
         self = .defined(wrapped)
     }
 
-    public init?(rawValue: T.RawValue) {
+    init?(rawValue: T.RawValue) {
         if let wrapped = T(rawValue: rawValue) {
             self = .defined(wrapped)
         } else {
@@ -18,12 +18,21 @@ extension Undefinable {
         }
     }
 
-    public var rawValue: T.RawValue {
+    var rawValue: T.RawValue {
         switch self {
         case .defined(let wrapped):
             return wrapped.rawValue
         case .undefined(let value):
             return value
+        }
+    }
+
+    func mapDefined<U>(_ transform: (T) throws -> U?) rethrows -> U? {
+        switch self {
+        case .defined(let wrapped):
+            return try transform(wrapped)
+        case .undefined:
+            return nil
         }
     }
 }
