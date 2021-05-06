@@ -5,6 +5,29 @@ public enum Undefinable<T: RawRepresentable> {
     case undefined(T.RawValue)
 }
 
+extension Undefinable {
+    public init(_ wrapped: T) {
+        self = .defined(wrapped)
+    }
+
+    public init?(rawValue: T.RawValue) {
+        if let wrapped = T(rawValue: rawValue) {
+            self = .defined(wrapped)
+        } else {
+            self = .undefined(rawValue)
+        }
+    }
+
+    public var rawValue: T.RawValue {
+        switch self {
+        case .defined(let wrapped):
+            return wrapped.rawValue
+        case .undefined(let value):
+            return value
+        }
+    }
+}
+
 extension Undefinable: Decodable where T: Decodable, T.RawValue: Decodable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
@@ -17,6 +40,16 @@ extension Undefinable: Decodable where T: Decodable, T.RawValue: Decodable {
 }
 
 extension Undefinable: Equatable where T: Equatable, T.RawValue: Equatable {
+    public static func ==(lhs: Undefinable<T>, rhs: Undefinable<T>) -> Bool {
+        switch (lhs, rhs) {
+        case let (.defined(lhsWrapped), .defined(rhsWrapped)):
+            return lhsWrapped == rhsWrapped
+        case let (.undefined(lhsValue), .undefined(rhsValue)):
+            return lhsValue == rhsValue
+        default:
+            return false
+        }
+    }
 }
 
 public extension Undefinable where T: Equatable {
@@ -62,9 +95,9 @@ extension Undefinable: Hashable where T: Hashable, T.RawValue: Hashable {
         case .defined(let wrapped):
             hasher.combine(1 as UInt8)
             hasher.combine(wrapped)
-        case .undefined(let rawValue):
+        case .undefined(let value):
             hasher.combine(0 as UInt8)
-            hasher.combine(rawValue)
+            hasher.combine(value)
         }
     }
 }
