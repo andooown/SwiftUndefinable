@@ -17,6 +17,11 @@ final class UndefinableTests: XCTestCase {
         XCTAssertEqual(Undefinable<Number>.defined(.one).rawValue, 1)
         XCTAssertEqual(Undefinable<Number>.undefined(-1).rawValue, -1)
     }
+
+    func testDefinedValue() throws {
+        XCTAssertEqual(Undefinable<Number>.defined(.one).definedValue, .one)
+        XCTAssertEqual(Undefinable<Number>.undefined(-1).definedValue, nil)
+    }
 }
 
 extension UndefinableTests {

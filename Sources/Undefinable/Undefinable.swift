@@ -26,6 +26,15 @@ public extension Undefinable {
             return value
         }
     }
+
+    var definedValue: T? {
+        switch self {
+        case .defined(let wrapped):
+            return wrapped
+        case .undefined:
+            return nil
+        }
+    }
 }
 
 extension Undefinable: Decodable where T: Decodable, T.RawValue: Decodable {
