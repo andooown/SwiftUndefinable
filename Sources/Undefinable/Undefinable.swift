@@ -26,15 +26,6 @@ public extension Undefinable {
             return value
         }
     }
-
-    func mapDefined<U>(_ transform: (T) throws -> U?) rethrows -> U? {
-        switch self {
-        case .defined(let wrapped):
-            return try transform(wrapped)
-        case .undefined:
-            return nil
-        }
-    }
 }
 
 extension Undefinable: Decodable where T: Decodable, T.RawValue: Decodable {

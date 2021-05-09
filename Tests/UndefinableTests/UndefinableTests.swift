@@ -17,11 +17,6 @@ final class UndefinableTests: XCTestCase {
         XCTAssertEqual(Undefinable<Number>.defined(.one).rawValue, 1)
         XCTAssertEqual(Undefinable<Number>.undefined(-1).rawValue, -1)
     }
-
-    func testMapDefined() throws {
-        XCTAssertEqual(Undefinable<Number>.defined(.one).mapDefined { "\($0.rawValue)" }, "1")
-        XCTAssertEqual(Undefinable<Number>.undefined(-1).mapDefined { "\($0.rawValue)" }, nil)
-    }
 }
 
 extension UndefinableTests {
